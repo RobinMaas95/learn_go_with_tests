@@ -6,3 +6,12 @@ func Sum(numbers []int) (result int) {
 	}
 	return
 }
+
+func SumAll(numbersToSum ...[]int) []int {
+	var sums []int
+
+	for _, arr := range numbersToSum {
+		sums = append(sums, Sum(arr))
+	}
+	return sums
+}
