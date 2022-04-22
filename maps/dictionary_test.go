@@ -2,13 +2,13 @@ package main
 
 import "testing"
 
+var definition = "This is just a test"
 func TestSearch(t *testing.T) {
-	value := "This is just a test"
-	dictionary := Dictionary{"test": value}
+	dictionary := Dictionary{"test": definition}
 
 	t.Run("known word", func(t *testing.T) {
 		got, _ := dictionary.Search("test")
-		assertStrings(t, got, value)
+		assertStrings(t, got, definition)
 	})
 
 	t.Run("unknown word", func(t *testing.T) {
