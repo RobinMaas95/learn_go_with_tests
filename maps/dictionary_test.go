@@ -7,12 +7,6 @@ const (
 	definition = "This is just a test"
 )
 
-type DictionaryErr string
-
-func (e DictionaryErr) Error() string {
-	return string(e)
-}
-
 func TestSearch(t *testing.T) {
 	dictionary := Dictionary{word: definition}
 
