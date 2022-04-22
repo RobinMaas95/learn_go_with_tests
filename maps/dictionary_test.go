@@ -2,8 +2,16 @@ package main
 
 import "testing"
 
-var word = "test"
-var definition = "This is just a test"
+const (
+	word       = "test"
+	definition = "This is just a test"
+)
+
+type DictionaryErr string
+
+func (e DictionaryErr) Error() string {
+	return string(e)
+}
 
 func TestSearch(t *testing.T) {
 	dictionary := Dictionary{word: definition}
