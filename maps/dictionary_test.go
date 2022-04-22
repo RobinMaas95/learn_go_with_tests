@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 const (
 	word       = "test"
@@ -40,9 +42,18 @@ func TestAdd(t *testing.T) {
 func TestUpdate(t *testing.T) {
 	new_definition := "New definition"
 	dictionary := Dictionary{word: definition}
-	dictionary.Update(word, new_definition)
 
-	assertDefinition(t, dictionary, word, new_definition)
+	t.Run("existing word", func(t *testing.T) {
+		err := dictionary.Update(word, new_definition)
+		assertError(t, err, nil)
+		assertDefinition(t, dictionary, word, new_definition)
+	})
+
+	t.Run("new word", func(t *testing.T) {
+		err := dictionary.Update("unknown", new_definition)
+		assertError(t, err, ErrUpdateNewWord)
+
+	})
 }
 
 func assertDefinition(t testing.TB, dictionary Dictionary, word, definition string) {
