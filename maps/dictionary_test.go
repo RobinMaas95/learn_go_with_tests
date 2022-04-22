@@ -2,13 +2,14 @@ package main
 
 import "testing"
 
+var word = "test"
 var definition = "This is just a test"
 
 func TestSearch(t *testing.T) {
-	dictionary := Dictionary{"test": definition}
+	dictionary := Dictionary{word: definition}
 
 	t.Run("known word", func(t *testing.T) {
-		got, _ := dictionary.Search("test")
+		got, _ := dictionary.Search(word)
 		assertStrings(t, got, definition)
 	})
 
@@ -20,14 +21,24 @@ func TestSearch(t *testing.T) {
 
 func TestAdd(t *testing.T) {
 	dict := Dictionary{}
-	dict.Add("test", definition)
-	assertDefinition(t, dict, "test", definition)
+
+	t.Run("new word", func(t *testing.T) {
+		err := dict.Add(word, definition)
+		assertError(t, err, nil)
+		assertDefinition(t, dict, word, definition)
+	})
+
+	t.Run("existing word", func(t *testing.T) {
+		err := dict.Add(word, "new definition")
+		assertError(t, err, ErrWordExists)
+		assertDefinition(t, dict, word, definition)
+	})
 }
 
 func assertDefinition(t testing.TB, dictionary Dictionary, word, definition string) {
 	t.Helper()
 
-	got, err := dictionary.Search("test")
+	got, err := dictionary.Search(word)
 	if err != nil {
 		t.Fatal("should find added word: ", err)
 	}
